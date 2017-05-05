@@ -15,6 +15,12 @@ public interface IWebSocketConfig extends IOauthRestConfig
      * @return -
      */
     public abstract String getWsUri();
+    
+    /**
+     * @param string -
+     */
+    public abstract void setWsUri(String string);
+
 
     /**
      * The Predix-Zone-Id HTTP Header value when the websocket endpoint requires it.  This is usually the instanceId of the service
