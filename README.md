@@ -4,8 +4,8 @@
 <a href="http://predixdev.github.io/predix-websocket-client" target="_blank">
 	<img height="50px" width="100px" src="images/pages.jpg" alt="view github pages">
 </a>
-# predix-websocket-client
 
+# predix-websocket-client
 
 
 Welcome to Predix Web Socket Client, a [Microcomponent](https://github.com/PredixDev/predix-rmd-ref-app/blob/master/docs/microcomponents.md) Utility.
@@ -40,7 +40,7 @@ The predix-websocket-client project provides websocket utility methods with help
         " />
 
   ```
-##Implement the Interface IWebSocketConfig  
+## Implement the Interface IWebSocketConfig  
 1. In your microservice that uses the Predix-Websocket-Client, implement IWebSocketConfig interface. This interface sets all the websocket related properties required by the WebSocketClient object. This design enables you to connect to more than one websocket server through your microservice. For each websocket server connection provide a set of websocket connections with a unique property name such as below:
 
   ```
@@ -72,14 +72,14 @@ The predix-websocket-client project provides websocket utility methods with help
   
     note: mvn clean install may run integration tests against services you may not have set up yet
   ```
-##Proxy Settings
+## Proxy Settings
 If you are behind a corporate proxy, please set the following in the properties file:
 ```
 predix.oauth.proxyHost=(For Example: sjc1intproxy01.crd.ge.com)
 
 predix.oauth.proxyPort=(For Example: 8080)
 ```
-##Running the Integration Tests (IT)
+## Running the Integration Tests (IT)
 The ITs include tests to create a connection to a user specified Timeseries service instance, post data using different formats and sizes, and close connection. In order to execute the ITs, please follow these instructions:
 
 1) Set the following properties in predix-websocket-client/config/application.properties with your settings:
@@ -105,7 +105,7 @@ predix.oauth.proxyHost =put.your.proxyHost.here
 predix.oauth.proxyPort=put.your.proxyPort.here
 ```
 
-##Dependencies
+## Dependencies
 |Required - latest unless specified | Note |
 | ------------- | :----- |
 | Java 8 | |
