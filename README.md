@@ -8,6 +8,7 @@
 # predix-websocket-client
 
 
+
 Welcome to Predix Web Socket Client, a [Microcomponent](https://github.com/PredixDev/predix-rmd-ref-app/blob/master/docs/microcomponents.md) Utility.
 
 The predix-websocket-client project provides websocket utility methods with helpers to manage Predix OAuth Security in the cloud. All the reference app microservices use this utility to make WebSocket calls in the cloud.
