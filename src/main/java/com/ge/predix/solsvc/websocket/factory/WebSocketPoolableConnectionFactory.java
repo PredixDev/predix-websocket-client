@@ -86,6 +86,7 @@ public class WebSocketPoolableConnectionFactory extends BasePoolableObjectFactor
         {
             WebSocketFactory factory = new WebSocketFactory();
             detectAndSetProxy(factory);
+            log.debug("***********************Connecting to:" + this.config.getWsUri());
             WebSocket ws = factory.createSocket(this.config.getWsUri());
             setHeaders(ws);
             ws.connect();
@@ -95,7 +96,7 @@ public class WebSocketPoolableConnectionFactory extends BasePoolableObjectFactor
         }
         catch (Throwable e)
         {
-            throw new RuntimeException("unable to make websocket connection config=" + this.config,e);
+            throw new RuntimeException("unable to make websocket connection to " + this.config.getWsUri() + " error=" + e.getMessage() + " config=" + this.config,e);
         }
     }
 
@@ -115,9 +116,10 @@ public class WebSocketPoolableConnectionFactory extends BasePoolableObjectFactor
         }
         if (this.config.getZoneId() != null) {
 	        headers.add(new BasicHeader("Predix-Zone-Id", this.config.getZoneId()));
-	        // Origin header required as it is not being set by the websocket
-	        headers.add(new BasicHeader("Origin", "http://localhost"));     
         }
+        // Origin header required as it is not being set by the websocket
+        headers.add(new BasicHeader("Origin", "https://localhost"));     
+    
         if ( this.userHeaders != null )
             headers.addAll(this.userHeaders);
         for (Header header : headers)
@@ -143,7 +145,7 @@ public class WebSocketPoolableConnectionFactory extends BasePoolableObjectFactor
     private void detectAndSetProxy(WebSocketFactory factory)
     {
         // setting proxies for websocket
-        if ( !StringUtils.isEmpty(this.config.getOauthProxyHost()) && !StringUtils.isEmpty(this.config.getOauthProxyPort()) )
+        if ( !this.config.getWsUri().contains("localhost") && !StringUtils.isEmpty(this.config.getOauthProxyHost()) && !StringUtils.isEmpty(this.config.getOauthProxyPort()) )
         {
             ProxySettings settings = factory.getProxySettings();
             settings.setServer("http://" + this.config.getOauthProxyHost() + ":" + this.config.getOauthProxyPort());
