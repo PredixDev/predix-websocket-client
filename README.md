@@ -76,9 +76,10 @@ The predix-websocket-client project provides websocket utility methods with help
 ## Proxy Settings
 If you are behind a corporate proxy, please set the following in the properties file:
 ```
-predix.oauth.proxyHost=(For Example: sjc1intproxy01.crd.ge.com)
-
-predix.oauth.proxyPort=(For Example: 8080)
+predix.rest.proxyHost=(For Example: sjc1intproxy01.crd.ge.com)
+predix.rest.proxyPort=(For Example: 8080)
+predix.rest.proxyUser=(For Example:proxyUser if needed)
+predix.rest.proxyPassword(For Example:proxyPassword if needed)
 ```
 ## Running the Integration Tests (IT)
 The ITs include tests to create a connection to a user specified Timeseries service instance, post data using different formats and sizes, and close connection. In order to execute the ITs, please follow these instructions:
@@ -101,9 +102,9 @@ The ITs include tests to create a connection to a user specified Timeseries serv
 ```
 2) If you are behind a corporate proxy, please uncomment and set these properties as well:
 ```
-predix.oauth.proxyHost =put.your.proxyHost.here
+predix.rest.proxyHost =put.your.proxyHost.here
 
-predix.oauth.proxyPort=put.your.proxyPort.here
+predix.rest.proxyPort=put.your.proxyPort.here
 ```
 
 ## Dependencies

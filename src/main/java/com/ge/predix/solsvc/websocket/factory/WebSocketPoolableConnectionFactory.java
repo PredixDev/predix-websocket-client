@@ -145,10 +145,14 @@ public class WebSocketPoolableConnectionFactory extends BasePoolableObjectFactor
     private void detectAndSetProxy(WebSocketFactory factory)
     {
         // setting proxies for websocket
-        if ( !this.config.getWsUri().contains("localhost") && !StringUtils.isEmpty(this.config.getOauthProxyHost()) && !StringUtils.isEmpty(this.config.getOauthProxyPort()) )
+        if ( !this.config.getWsUri().contains("localhost") && !StringUtils.isEmpty(this.config.getProxyHost()) && !StringUtils.isEmpty(this.config.getProxyPort()) )
         {
             ProxySettings settings = factory.getProxySettings();
-            settings.setServer("http://" + this.config.getOauthProxyHost() + ":" + this.config.getOauthProxyPort());
+            if ( this.config.getProxyUser() != null )
+            	settings.setId(this.config.getProxyUser());
+            if ( this.config.getProxyPassword() != null )
+            	settings.setPassword(this.config.getProxyPassword());
+            settings.setServer("http://" + this.config.getProxyHost() + ":" + this.config.getProxyPort());
         }
     }
 
