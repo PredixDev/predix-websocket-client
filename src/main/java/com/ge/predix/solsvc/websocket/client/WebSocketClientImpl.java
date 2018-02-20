@@ -137,7 +137,6 @@ public class WebSocketClientImpl
     }
 
     /**
-     * @param ws - WebSocket Instance
      * @param text - input type
      */
 
@@ -179,7 +178,6 @@ public class WebSocketClientImpl
     }
 
     /**
-     * @param ws - WebSocket Instance
      * @param textList - input type
      * 
      */
@@ -223,7 +221,6 @@ public class WebSocketClientImpl
     }
 
     /**
-     * @param ws - WebSocket Instance
      * @param bytes - input type
      */
     @SuppressWarnings("nls")

@@ -29,16 +29,13 @@ public interface WebSocketClient
 
     /**
      * @param restClient - 
-     * @param config - use implemented IWebSocketConfig
      * @param headers - headers set by the user when connections are opened and placed in the pool.  Be careful about Header values that can expire, see UpdateHeaders()
      * @param messageListener - the listener that the user of this webSocketClient passes in
      */
     public void init(RestClient restClient, List<Header> headers, WebSocketAdapter messageListener);
 
     /**
-     * @param ws - WebSocket Instance
      * @param text - input type
-     * @param listener -
      * @throws IOException -
      * @throws WebSocketException -
      */
@@ -46,9 +43,7 @@ public interface WebSocketClient
             throws IOException, WebSocketException;
 
     /**
-     * @param ws - WebSocket Instance
      * @param textList - input type
-     * @param listener -
      * @throws IOException -
      * @throws WebSocketException -
      */
@@ -56,9 +51,7 @@ public interface WebSocketClient
             throws IOException, WebSocketException;
 
     /**
-     * @param ws - WebSocket Instance
      * @param bytes - input type
-     * @param listener -
      * @throws IOException -
      * @throws WebSocketException -
      */
@@ -74,7 +67,6 @@ public interface WebSocketClient
 
 
 	/**
-	 * @param oauthConfig -
 	 * @param websocketConfig -
 	 */
     void overrideWebSocketConfig(IWebSocketConfig websocketConfig);
