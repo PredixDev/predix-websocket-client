@@ -76,7 +76,7 @@ The predix-websocket-client project provides websocket utility methods with help
 ## Proxy Settings
 If you are behind a corporate proxy, please set the following in the properties file:
 ```
-predix.rest.proxyHost=(For Example: sjc1intproxy01.crd.ge.com)
+predix.rest.proxyHost=(For Example: mycompany.proxyserver.com)
 predix.rest.proxyPort=(For Example: 8080)
 predix.rest.proxyUser=(For Example:proxyUser if needed)
 predix.rest.proxyPassword(For Example:proxyPassword if needed)
