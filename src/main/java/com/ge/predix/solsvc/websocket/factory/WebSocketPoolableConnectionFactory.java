@@ -120,6 +120,7 @@ public class WebSocketPoolableConnectionFactory extends BasePoolableObjectFactor
         // Origin header required as it is not being set by the websocket
         headers.add(new BasicHeader("Origin", "https://localhost"));     
     
+        //TODO only add the userHeaders if they don't exist. Decide whether to override existing instead of adding.
         if ( this.userHeaders != null )
             headers.addAll(this.userHeaders);
         for (Header header : headers)
