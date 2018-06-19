@@ -24,15 +24,14 @@ import com.neovisionaries.ws.client.WebSocketException;
  * 
  * @author predix
  */
-public interface WebSocketClient
+public interface WebSocketClient extends RestClient
 {
 
     /**
-     * @param restClient - 
-     * @param headers - headers set by the user when connections are opened and placed in the pool.  Be careful about Header values that can expire, see UpdateHeaders()
+     * @param headers - extra headers set by the user when connections are opened and placed in the pool.  Okay to pass in null.  Be careful about Header values that can expire, see UpdateHeaders()
      * @param messageListener - the listener that the user of this webSocketClient passes in
      */
-    public void init(RestClient restClient, List<Header> headers, WebSocketAdapter messageListener);
+    public void init(List<Header> headers, WebSocketAdapter messageListener);
 
     /**
      * @param text - input type

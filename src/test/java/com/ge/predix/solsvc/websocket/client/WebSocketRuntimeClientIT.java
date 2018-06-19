@@ -29,11 +29,14 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.ge.predix.solsvc.websocket.config.IWebSocketConfig;
+import com.ge.predix.solsvc.websocket.config.WebSocketConfigFactory;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketException;
@@ -48,7 +51,7 @@ import com.neovisionaries.ws.client.WebSocketException;
 @ContextConfiguration(locations = { "classpath*:META-INF/spring/predix-websocket-client-scan-context.xml",
 		"classpath*:META-INF/spring/predix-rest-client-scan-context.xml",
 		"classpath*:META-INF/spring/predix-rest-client-sb-properties-context.xml" })
-public class WebSocketClientIT {
+public class WebSocketRuntimeClientIT {
 
 	/**
 	 * 
@@ -57,9 +60,17 @@ public class WebSocketClientIT {
 	static Logger log = LoggerFactory.getLogger(WebSocketClientIT.class);
 
 	@Autowired
-	private WebSocketClient client;
-
-
+	private WebSocketClient runtimeClient;
+	
+	//we say 'runtimeConfig' but to keep our test cases tidy we read from the properties
+	@Value("${predix.oauth.issuerId.url:#{null}}")
+	private String oauthIssuerId;
+	@Value("${predix.oauth.clientId:#{null}}")
+	private String oauthClientId;
+    @Value("${predix.timeseries.websocket.uri}")
+    private String             wsUri;
+    @Value("${predix.timeseries.zoneid:#{null}}")
+    private String             zoneId;
 
 	/**
 	 * 
@@ -84,29 +95,35 @@ public class WebSocketClientIT {
 	 */
 	@Before
 	public void setup() {
-		List<Header> nullHeaders = null;
-		this.client.init(nullHeaders, this.messageListener);
+		//
 	}
 
+	
 	/**
-	 * 
+	 *  -
 	 */
 	@SuppressWarnings("nls")
 	@Test
-	public void postDataTest() {
+	public void postDataTestUsingRuntimeConfig() {
 
 		try {
+			boolean encodeClientId = true;
+			IWebSocketConfig testConfig = WebSocketConfigFactory.zoneEndpointClientCredentials(this.wsUri, this.zoneId, this.oauthIssuerId, this.oauthClientId, encodeClientId);
 
+			List<Header> nullHeaders = null;
+			this.runtimeClient.init(nullHeaders, this.messageListener);
+			this.runtimeClient.overrideWebSocketConfig(testConfig);
+			
 			String testMessage1 = "{\"messageId\": \"1453338376222\",\"body\": [{\"name\": \"Compressor-2015:CompressionRatio\",\"datapoints\": [[1453338376222,10,3],[1453338376222,10,1]],\"attributes\": {\"host\": \"server1\",\"customer\": \"Acme1\"}}]}"; // $$
-			this.client.postTextWSData(testMessage1);
+			this.runtimeClient.postTextWSData(testMessage1);
 
 			// post data as text List
-			this.client.postTextArrayWSData(generateTextArray());
+			this.runtimeClient.postTextArrayWSData(generateTextArray());
 
 			// port data as binary array
 			byte[] byteArray = generateBinaryArray();
 			if (byteArray != null && byteArray.length != 0) {
-				this.client.postBinaryWSData(byteArray);
+				this.runtimeClient.postBinaryWSData(byteArray);
 			}
 
 		} catch (IOException e) {
@@ -121,42 +138,8 @@ public class WebSocketClientIT {
 			fail("Failed due to thread interruption." + e.getMessage()); // $$
 		}
 	}
+
 	
-
-	/**
-	 * 
-	 */
-	@SuppressWarnings("nls")
-	@Test
-	public void postDataTestSlightLoad() {
-		try {
-			for (int i = 0; i < 25; i++) {
-				// post data multiple times
-				String testMessage1 = "{\"messageId\": \"1453338376222\",\"body\": [{\"name\": \"Compressor-2015:CompressionRatio\",\"datapoints\": [[1453338376222,10,3],[1453338376222,10,1]],\"attributes\": {\"host\": \"server1\",\"customer\": \"Acme1\"}}]}"; // $$
-				this.client.postTextWSData(testMessage1);
-
-				// post data as text List
-				this.client.postTextArrayWSData(generateTextArray());
-
-				// port data as binary array
-				byte[] byteArray = generateBinaryArray();
-				if (byteArray != null && byteArray.length != 0) {
-					this.client.postBinaryWSData(byteArray);
-				}
-			}
-
-		} catch (IOException e) {
-			fail("Failed to connect to WS due to IOException." + e.getMessage()); // $$
-		} catch (WebSocketException e) {
-			fail("Failed to connect to WS due to WebSocketException." + e.getMessage()); // $$
-		}
-
-		try {// wait added for time delay in callback from websocket endpoint
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			fail("Failed due to thread interruption." + e.getMessage()); // $$
-		}
-	}
 
 	@SuppressWarnings("nls")
 	private List<String> generateTextArray() {

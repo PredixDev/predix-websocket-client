@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.ge.predix.solsvc.restclient.config.DefaultOauthRestConfig;
 
 /**
- * This default WebSocket Config is tailored to Predix Timeseries properties.
+ * This default WebSocket Config is tailored to Predix TimeSeries properties.
  * 
  * If you need to define another WebSocket endpoint, such as to a custom WebSocket
  * Server, simply implement the interface and override this default properties in the WebSocket Factory.
@@ -30,6 +30,7 @@ public class DefaultWebSocketConfigForTimeseries extends DefaultOauthRestConfig
     @Value("${predix.timeseries.zoneid:#{null}}")
     private String             zoneId;
 
+    //pool properties
     @Value("${predix.timeseries.websocket.pool.maxIdle:5}")
     private int                wsMaxIdle;
 
@@ -61,7 +62,8 @@ public class DefaultWebSocketConfigForTimeseries extends DefaultOauthRestConfig
      * 
      * @param wsUri -
      */
-    public void setWsUri(String wsUri)
+    @Override
+	public void setWsUri(String wsUri)
     {
         this.wsUri = wsUri;
         
@@ -77,7 +79,17 @@ public class DefaultWebSocketConfigForTimeseries extends DefaultOauthRestConfig
         return this.zoneIdHeader;
     }
 
-    /**
+    /*
+	 * (non-Javadoc)
+	 * @see com.ge.predix.solsvc.websocket.config.IWebSocketConfig#getZoneId()
+	 */
+	@Override
+	public String getZoneId()
+	{
+	    return this.zoneId;
+	}
+
+	/**
      * you may override the setter with an @value annotated property
      * 
      * @param zoneId -
@@ -86,16 +98,6 @@ public class DefaultWebSocketConfigForTimeseries extends DefaultOauthRestConfig
     {
         this.zoneId = zoneId;
         
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see com.ge.predix.solsvc.websocket.config.IWebSocketConfig#getZoneId()
-     */
-    @Override
-    public String getZoneId()
-    {
-        return this.zoneId;
     }
 
     /*

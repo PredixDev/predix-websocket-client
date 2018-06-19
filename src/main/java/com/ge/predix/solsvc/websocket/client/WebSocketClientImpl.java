@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.ge.predix.solsvc.restclient.impl.RestClient;
+import com.ge.predix.solsvc.restclient.impl.RestClientImpl;
 import com.ge.predix.solsvc.websocket.config.IWebSocketConfig;
 import com.ge.predix.solsvc.websocket.factory.WebSocketPoolableConnectionFactory;
 import com.neovisionaries.ws.client.WebSocket;
@@ -36,7 +36,7 @@ import com.neovisionaries.ws.client.WebSocketAdapter;
  */
 @Component
 @Scope("prototype")
-public class WebSocketClientImpl
+public class WebSocketClientImpl extends RestClientImpl
         implements WebSocketClient
 {
     private static Logger                      log           = LoggerFactory.getLogger(WebSocketClientImpl.class);
@@ -46,7 +46,7 @@ public class WebSocketClientImpl
     @Autowired
     @Qualifier("defaultWebSocketConfig")
     private IWebSocketConfig webSocketConfig;
-
+    
     private WebSocketPoolableConnectionFactory webSocketPoolableConnectionFactory = new WebSocketPoolableConnectionFactory();
 
     private final GenericObjectPool            wsPool        = new GenericObjectPool();
@@ -54,6 +54,7 @@ public class WebSocketClientImpl
     
     @Override
     public void overrideWebSocketConfig(IWebSocketConfig websocketConfig){
+    	overrideRestConfig(websocketConfig);
     	this.webSocketConfig = websocketConfig;
     }
     
@@ -66,7 +67,7 @@ public class WebSocketClientImpl
             "nls"
     })
     @Override
-    public void init(RestClient restClient, List<Header> headers, WebSocketAdapter messageListener)
+    public void init(List<Header> headers, WebSocketAdapter messageListener)
     {
         log.info("Init WebSocketClient with config=" + this.webSocketConfig + " for this=" + this.toString());
         this.wsPool.setMaxActive(this.webSocketConfig.getWsMaxActive());
@@ -77,7 +78,7 @@ public class WebSocketClientImpl
         this.wsPool.setWhenExhaustedAction(GenericObjectPool.WHEN_EXHAUSTED_BLOCK);
         
         
-        this.webSocketPoolableConnectionFactory.init(restClient, this.webSocketConfig, headers, messageListener);
+        this.webSocketPoolableConnectionFactory.init(this, this.webSocketConfig, headers, messageListener);
         this.wsPool.setFactory(this.webSocketPoolableConnectionFactory);
         for (int i = 0; i < this.wsPool.getMaxActive(); ++i)
         {

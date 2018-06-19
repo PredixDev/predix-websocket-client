@@ -173,8 +173,7 @@ public class WebSocketPoolableConnectionFactory extends BasePoolableObjectFactor
     @Override
     public String toString()
     {
-        return "WebSocketPoolableConnectionFactory:" + this.hashCode() + "[restClient=" + this.restClient
-                + ", userHeaders=" + this.userHeaders + ", config=" + this.config + ", userListener=" + this.userListener + "]";
+        return "WebSocketPoolableConnectionFactory:" + this.hashCode() + "[userHeaders=" + this.userHeaders + ", config=" + this.config + ", userListener=" + this.userListener + "]";
     }
 
 }
