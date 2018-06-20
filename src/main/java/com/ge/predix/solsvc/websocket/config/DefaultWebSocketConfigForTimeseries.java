@@ -21,7 +21,7 @@ import com.ge.predix.solsvc.restclient.config.DefaultOauthRestConfig;
 public class DefaultWebSocketConfigForTimeseries extends DefaultOauthRestConfig
         implements IWebSocketConfig, EnvironmentAware
 {
-    @Value("${predix.timeseries.websocket.uri}")
+    @Value("${predix.timeseries.websocket.uri:#{null}}")
     private String             wsUri;
 
     @Value("${predix.timeseries.zoneid.header:Predix-Zone-Id}")
