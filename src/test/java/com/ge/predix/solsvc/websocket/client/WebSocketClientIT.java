@@ -29,7 +29,6 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -43,10 +42,8 @@ import com.neovisionaries.ws.client.WebSocketException;
  * @author 212438846
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ComponentScan("com.ge.predix.solsvc.restclient")
 @ActiveProfiles("local")
 @ContextConfiguration(locations = { "classpath*:META-INF/spring/predix-websocket-client-scan-context.xml",
-		"classpath*:META-INF/spring/predix-rest-client-scan-context.xml",
 		"classpath*:META-INF/spring/predix-rest-client-sb-properties-context.xml" })
 public class WebSocketClientIT {
 

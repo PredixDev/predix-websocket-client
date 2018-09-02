@@ -19,6 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +38,8 @@ import com.neovisionaries.ws.client.WebSocketAdapter;
  */
 @Component
 @Scope("prototype")
+@ImportResource({"classpath*:META-INF/spring/predix-rest-client-scan-context.xml"})
+@Import(RestClientImpl.class)
 public class WebSocketClientImpl extends RestClientImpl
         implements WebSocketClient
 {
